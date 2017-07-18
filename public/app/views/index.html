@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>La vendimia</title>
+
+  <!--CSS-->
+  <link rel="stylesheet" href="assets/css/bootstrap.css">
+  <link rel="stylesheet" href="assets/css/autocomplete.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <!--JS-->
+  <script src="assets/js/jquery.js"></script>
+
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="assets/js/bootstrap.js"></script>
+  <script src="assets/js/angular.js"></script>
+  <script src="assets/js/angular-route.js"></script>
+  <script src="assets/js/angular-animate.js"></script>
+  <script src="assets/js/angular-aria.js"></script>
+  <script src="assets/js/angular-messages.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <script src="assets/js/autocomplete.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.0.1/ui-bootstrap-tpls.min.js"></script>
+  <script src="assets/js/javascript.js"></script>
+
+  <script src="app/app.js"></script>
+  <script src="app/routes.js"></script>
+
+  <!--Controllers-->
+  <script src="app/controllers/mainCtrl.js"></script>
+  <script src="app/controllers/DemoCtrl.js"></script>
+  <!--Services-->
+  <script src="app/services/mainServices.js"></script>
+
+</head>
+<body ng-app="myapp" ng-controller="mainCtrl as main">
+  <!--HEADER-->
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Inicio <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="/ventas">Ventas</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Clientes</a></li>
+                <li><a href="#">Artículos</a></li>
+                <li><a href="#">Configuración</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a>Fecha: <span >{{date | date:'dd/MM/yyyy'}}</span> </a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!--CONTENT-->
+  <div class="container" role="main">
+    <div ng-view></div>
+  </div>
+</body>
+</html>
