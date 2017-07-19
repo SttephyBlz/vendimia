@@ -7,6 +7,7 @@ autoIncrement.initialize(mongoose.connect("mongodb://localhost:27017/pv"));
 var saleSchema = new Schema({
     saleId: {type: Number, default: 0, unique: true},
     client_id: Number,
+    client_name: String,
     total: Number,
     abono: Number,
     plazo: Number,

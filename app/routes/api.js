@@ -141,6 +141,7 @@ module.exports = function(router) {
       var sale = new Sale({
         saleId: count,
         client_id: req.body.client_id,
+        client_name: req.body.client_name,
         total: req.body.total,
         abono: req.body.abono,
         plazo: req.body.plazo,
@@ -163,7 +164,7 @@ module.exports = function(router) {
       if (err){
         res.json({ success: false, message: err});
       }else {
-        res.json({ success: true, message:  'Ventas', nextid: count, sales: sales});
+        res.json({ success: true, message:  'Ventas', sales: sales});
       }
     });
   });
@@ -171,9 +172,7 @@ module.exports = function(router) {
   router.get('/sales/next', function(req,res) {
     //Get next ID
     Sale.nextCount(function(err, count) {
-
       res.json({ success: true, message: 'Ventas', nextid: count});
-
     });
   });
 

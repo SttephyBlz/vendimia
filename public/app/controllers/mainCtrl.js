@@ -26,7 +26,15 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     });
   })
 
-  .controller('saleCtrl', function($scope, $location, $timeout, NextSale, Config, saveSale, ArticlesRetriever) {
+  .controller('allSales', function($scope, $timeout, allSales){
+    allSales.all().then(function(data) {
+      if(data.data.success){
+        $scope.sales = data.data.sales;
+      }
+    });
+  })
+
+  .controller('saleCtrl', function($scope, $location,$window, $timeout, NextSale, Config, saveSale, ArticlesRetriever) {
     var app = this;
 
     //To show rows
@@ -226,59 +234,11 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     app.save = function(r, o) {
       if(r != undefined){
 
-        /*
-          Obtener las cantidades de los productos seleccionados.
-          Sumarlos por ID.
-          Resultado: JSON con las cantidades de los productos ya sumados.
-        */
-        /*
-        var obj1 = [];
-        for(var i=0; i< app.rows.length; i++){
-          var aux = {
-            id: app.rows[i].id,
-            cantidad: app.rows[i].cantidad,
-            existencia: app.rows[i].existencia
-          }
-          obj1.push(aux);
-        }
-        console.log(obj1);
-
-        var obj2 = {
-          rows: obj1
-        }
-          console.log(obj2);
-
-        var newObj = {};
-        for(i in obj2['rows']){
-         var item = obj2['rows'][i];
-         console.log(item);
-          if(newObj[item.id] === undefined){
-              newObj[item.id] = 0;
-          }
-          newObj[item.id] += item.cantidad*1;
-
-        }
-        console.log(newObj);
-        var result = {};
-        result.rows = [];
-        for(i in newObj){
-          for(var a =0; a<obj1.length;a++){
-            if(obj1[a].id==i){
-              if(obj1[a].existencia>=newObj[i]){
-                result.rows.push({'id':i*1,'cantidad':newObj[i], 'existencia': obj1[a].existencia});
-              }else{
-                result.rows.push({'id':i*1,'cantidad':newObj[i], 'existencia': 0});
-              }
-            }
-          }
-        }
-
-*/
-
         var abonosmensuales = o[r]; //abono mensual seleccionado
-        var d = new Date();
+        var d = formattedDate(new Date());
         var regData = {
           client_id: app.selected.clientId,
+          client_name: app.selected.nombre+' '+app.selected.apellido_paterno+' '+app.selected.apellido_materno,
           total: abonosmensuales.total_adeudo,
           abono: abonosmensuales.importe_abono,
           plazo: abonosmensuales.plazo,
@@ -287,7 +247,10 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
 
         saveSale.create(regData).then(function(data){
           if(data.data.success){
-            app.successMsg = 'Bien Hecho, Tu venta ha sido registrada correctamente';
+            app.saveMsg = 'Bien Hecho, Tu venta ha sido registrada correctamente. Redireccionando ...';
+            $timeout(function() {
+              $location.path('/ventas');
+            }, 5000);
           }
         });
       }else{
@@ -300,7 +263,33 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
 
 
     app.si = function(){
-      $location.path('/');
+      for(var i=0; i<app.rows.length; i++){
+        var query = {
+          id: app.rows[i].id,
+          existencia: app.rows[i].existencia
+        };
+
+        ArticlesRetriever.newExistencia(query).then(function(data){
+          if(data.data.success){
+            console.log(data.data.message);
+          }
+        });
+      }
+
+      $window.location.reload();
+      $location.path('/ventas');
+    }
+
+    /* ===== Formatear la fecha ===== */
+    function formattedDate(d) {
+      let month = String(d.getMonth() + 1);
+      let day = String(d.getDate());
+      const year = String(d.getFullYear());
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return `${day}/${month}/${year}`;
     }
   })
 

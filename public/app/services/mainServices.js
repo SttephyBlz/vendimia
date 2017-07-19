@@ -24,6 +24,16 @@ angular.module('mainServices', [])
     return ArticlesRetriever;
   })
 
+  .factory('Config', function($http) {
+    var config = {};
+
+    config.conf = function() {
+      return $http.get('/api/config');
+    }
+
+    return config;
+  })
+
   .factory('NextSale', function($http) {
     var nextSale = {};
 
@@ -34,14 +44,14 @@ angular.module('mainServices', [])
     return nextSale;
   })
 
-  .factory('Config', function($http) {
-    var config = {};
+  .factory('allSales', function($http) {
+    var sale = {};
 
-    config.conf = function() {
-      return $http.get('/api/config');
+    sale.all = function() {
+      return $http.get('/api/sales/all');
     }
 
-    return config;
+    return sale;
   })
 
   .factory('saveSale', function($http) {

@@ -21,7 +21,7 @@
           <h1>¿Desea cancelar?</h1>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
           <a type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sale.si()">Si</a>
         </div>
       </div>
@@ -192,6 +192,11 @@
     <div class="col-md-12 text-right">
       <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Cancelar </button>
       <button type="button" name="button" class="btn btn-success" ng-click="sale.save(result, o)">Guardar </button>
+    </div>
+  </div>
+  <div class="alert alert-dismissible alert-success" ng-show="sale.saveMsg">
+    <div class="">
+      <p> {{sale.saveMsg}}</p>
     </div>
   </div>
 </div>
