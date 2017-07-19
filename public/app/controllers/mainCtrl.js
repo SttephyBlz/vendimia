@@ -26,7 +26,7 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     });
   })
 
-  .controller('saleCtrl', function($scope, $location, $timeout, NextSale, Config, saveSale) {
+  .controller('saleCtrl', function($scope, $location, $timeout, NextSale, Config, saveSale, ArticlesRetriever) {
     var app = this;
 
     //To show rows
@@ -79,19 +79,29 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
 
     app.removeArticle = function(index){
       var newArticleList=[];
-
       angular.forEach(app.rows,function(article, arrIndex){
         if(arrIndex != index){
           newArticleList.push(article);
         }
       });
 
+      var query = {
+        id: app.rows[index].id,
+        existencia: app.rows[index].existencia
+      };
+
+      ArticlesRetriever.newExistencia(query).then(function(data){
+        if(data.data.success){
+          console.log(data.data.message);
+        }
+      });
+      console.log(app.rows[index]);
+
       app.rows=newArticleList;
       if(app.rows.length === 0){
         app.siguiente = false;
         app.totales = false;
       }
-
     };
 
     /* =========== Cálculos ===========*/
@@ -101,11 +111,27 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
         $scope.plazo_maximo = data.data.config.plazo_maximo;
         $scope.porciento_enganche = data.data.config.porciento_enganche;
 
+        if(e.target.value != ''){
+          e.target.disabled = true;
+          var query = {
+            id: art.id,
+            existencia: (art.existencia-(e.target.value*1))
+          };
+
+          ArticlesRetriever.newExistencia(query).then(function(data){
+            if(data.data.success){
+              console.log(data.data.message);
+            }
+          });
+        }
+
         app.cantidad = e.target.value;
+
         if( (app.cantidad > 0) && (app.cantidad <= art.existencia)){
           //Get number with 2 decimals
           art.newprecio = (art.precio*(1+($scope.tasa_financiamiento*$scope.plazo_maximo)/100)).toFixed(2);
           art.importe = (art.newprecio * app.cantidad).toFixed(2);
+          art.cantidad = app.cantidad;
 
           app.total = function(items){
             var obj = {};
@@ -173,6 +199,7 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     /* =========== Validación del botón siguiente ===========*/
 
     app.siguiente1 = function() {
+
       if(app.selected != undefined){
         var u = [];
         for(var i =0; i < app.rows.length; i++){
@@ -198,6 +225,56 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
 
     app.save = function(r, o) {
       if(r != undefined){
+
+        /*
+          Obtener las cantidades de los productos seleccionados.
+          Sumarlos por ID.
+          Resultado: JSON con las cantidades de los productos ya sumados.
+        */
+        /*
+        var obj1 = [];
+        for(var i=0; i< app.rows.length; i++){
+          var aux = {
+            id: app.rows[i].id,
+            cantidad: app.rows[i].cantidad,
+            existencia: app.rows[i].existencia
+          }
+          obj1.push(aux);
+        }
+        console.log(obj1);
+
+        var obj2 = {
+          rows: obj1
+        }
+          console.log(obj2);
+
+        var newObj = {};
+        for(i in obj2['rows']){
+         var item = obj2['rows'][i];
+         console.log(item);
+          if(newObj[item.id] === undefined){
+              newObj[item.id] = 0;
+          }
+          newObj[item.id] += item.cantidad*1;
+
+        }
+        console.log(newObj);
+        var result = {};
+        result.rows = [];
+        for(i in newObj){
+          for(var a =0; a<obj1.length;a++){
+            if(obj1[a].id==i){
+              if(obj1[a].existencia>=newObj[i]){
+                result.rows.push({'id':i*1,'cantidad':newObj[i], 'existencia': obj1[a].existencia});
+              }else{
+                result.rows.push({'id':i*1,'cantidad':newObj[i], 'existencia': 0});
+              }
+            }
+          }
+        }
+
+*/
+
         var abonosmensuales = o[r]; //abono mensual seleccionado
         var d = new Date();
         var regData = {

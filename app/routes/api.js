@@ -121,6 +121,20 @@ module.exports = function(router) {
     });
   });
 
+  router.post('/articles/e', function(req, res) {
+    Article.findOneAndUpdate(
+      {articleId: req.body.id},
+      {$set: {existencia: req.body.existencia}},
+      function(err, result){
+            if(err){
+                res.send({ success: false, message: err});
+            }else{
+              res.json({ success: true, message: 'Articulo actualizado.'});
+            }
+      }
+    );
+  })
+
   router.post('/sale/new', function(req, res){
     //Save sale with new ID (auto incremented).
     Sale.nextCount(function(err, count) {

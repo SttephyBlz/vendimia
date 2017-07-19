@@ -27,8 +27,8 @@
       </div>
     </div>
   </div>
-
   <!--FIN MENSAJES-->
+
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title">Registro de ventas</h3>
@@ -68,7 +68,7 @@
           <span class="btn btn-info text-left">Artículo</span>
         </div>
         <div ng-controller="articlesAutocompleteCtrl as ctrl2" class="row" ng-init="ctrl2.all()" ng-cloak >
-          <form >
+          <form>
             <div class="col-md-5">
               <!--<pre>Model: {{selected1 | json}}</pre>-->
               <input type="text"
@@ -80,7 +80,7 @@
                 class="form-control">
             </div>
             <div class="col-md-1">
-              <button type="submit" name="button" id="btnAgregar" ng-click="sale.addArticle(artSelected)" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
+              <button type="submit" name="button" id="btnAgregar"  ng-click="sale.addArticle(artSelected); " class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> </button>
             </div>
           </form>
         </div>
@@ -103,10 +103,10 @@
               <td>{{art.descripcion}}</td>
               <td>{{art.modelo}}</td>
               <td class="col-md-1">
-              <input value="" type="number" name="id" ng-blur="calculate($event, $index, art);" class="form-control" required /></td>
+              <input ng-model="cant" ng-value="$event" type="number" name="id" ng-blur="calculate($event, $index, art);" class="form-control" required /></td>
               <td>{{art.newprecio}}</td>
               <td>{{art.importe}}</td>
-              <td><button type="button" name="button" ng-click="sale.removeArticle($index)" class="btn-xs btn-danger">
+              <td><button type="button" name="button" ng-click="sale.removeArticle($index); " class="btn-xs btn-danger">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> </button>
               </td>
             </tr>

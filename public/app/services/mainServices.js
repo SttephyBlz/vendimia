@@ -17,6 +17,10 @@ angular.module('mainServices', [])
       return $http.get('/api/articles/all');
     }
 
+    ArticlesRetriever.newExistencia = function(data){
+      return $http.post('/api/articles/e', data);
+    }
+
     return ArticlesRetriever;
   })
 
