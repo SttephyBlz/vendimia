@@ -26,7 +26,7 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     });
   })
 
-  .controller('saleCtrl', function($scope, NextSale, Config, saveSale) {
+  .controller('saleCtrl', function($scope, $location, $timeout, NextSale, Config, saveSale) {
     var app = this;
 
     //To show rows
@@ -34,6 +34,7 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
     app.abonos    = false;
     app.siguiente = false;
     app.guardar   = false;
+    app.errorMsg  = false;
 
     //Folio de nueva venta
     NextSale.n().then(function(data) {
@@ -66,6 +67,11 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
             app.siguiente=true;
             app.totales= true;
             app.counter++;
+          }else{
+            app.errorMsg = 'El artículo seleccionado no cuenta con existencia, favor de verificar.';
+            $timeout(function() {
+              app.errorMsg = false;
+            }, 5000);
           }
         }
       }
@@ -180,7 +186,10 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
           app.abonos = true;
           app.guardar = true;
         }else{
-          console.log('Mensaje: Los datos ingresados no son correctos, favor de verificar');
+          app.errorMsg = 'Los datos ingresados no son correctos, favor de verificar.';
+          $timeout(function() {
+            app.errorMsg = false;
+          }, 5000);
         }
       }
     };
@@ -201,13 +210,21 @@ angular.module('mainController', ['ngMaterial', 'mainServices', 'ui.bootstrap'])
 
         saveSale.create(regData).then(function(data){
           if(data.data.success){
-            console.log(data.data.message);
-          }else{
-            console.log(data.data.message);
+            app.successMsg = 'Bien Hecho, Tu venta ha sido registrada correctamente';
           }
         });
+      }else{
+        app.errorMsg = 'Debe seleccionar un plazo para realizar el pago de su compra.';
+        $timeout(function() {
+          app.errorMsg = false;
+        }, 5000);
       }
     };
+
+
+    app.si = function(){
+      $location.path('/');
+    }
   })
 
 ;

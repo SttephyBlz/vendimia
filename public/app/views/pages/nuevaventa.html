@@ -1,5 +1,34 @@
 <div ng-controller="saleCtrl as sale">
+  <!--MENSAJES-->
+  <div class="alert alert-dismissible alert-success" ng-show="sale.successMsg">
+    <div class="">
+      <p> {{sale.successMsg}}</p>
+    </div>
+  </div>
+  <div class="alert alert-dismissible alert-danger" ng-show="sale.errorMsg">
+    <div class="">
+      <p>{{sale.errorMsg}}</p>
+    </div>
+  </div>
+  <div id="myModal" class="modal" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Mensaje</h4>
+        </div>
+        <div class="modal-body text-center">
+          <h1>¿Desea cancelar?</h1>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+          <a type="button" class="btn btn-primary" data-dismiss="modal" ng-click="sale.si()">Si</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!--FIN MENSAJES-->
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title">Registro de ventas</h3>
@@ -155,13 +184,13 @@
   </div>
   <div id="btnSiguiente" ng-show="sale.siguiente" class="row">
     <div class="col-md-12 text-right">
-      <button type="button" name="button" class="btn btn-success">Cancelar </button>
+      <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Cancelar </button>
       <button type="button" name="button" class="btn btn-success" ng-click="sale.siguiente1()">Siguiente </button>
     </div>
   </div>
   <div id="btnGuardar" ng-show="sale.guardar" class="row">
     <div class="col-md-12 text-right">
-      <button type="button" name="button" class="btn btn-success">Cancelar </button>
+      <button type="button" name="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">Cancelar </button>
       <button type="button" name="button" class="btn btn-success" ng-click="sale.save(result, o)">Guardar </button>
     </div>
   </div>
