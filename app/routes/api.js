@@ -135,6 +135,7 @@ module.exports = function(router) {
     );
   })
 
+  /* ========================= VENTAS ========================= */
   router.post('/sale/new', function(req, res){
     //Save sale with new ID (auto incremented).
     Sale.nextCount(function(err, count) {

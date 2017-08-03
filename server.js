@@ -23,8 +23,6 @@ mongoose.connect('mongodb://localhost:27017/pv', function(err){
     }
 });
 
-
-
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/app/views/index.html'));
 });

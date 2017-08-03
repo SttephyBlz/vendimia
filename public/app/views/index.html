@@ -32,9 +32,14 @@
 
   <!--Controllers-->
   <script src="app/controllers/mainCtrl.js"></script>
+  <script src="app/controllers/clientesCtrl.js"></script>
+  <script src="app/controllers/articulosCtrl.js"></script>
   <script src="app/controllers/DemoCtrl.js"></script>
+
   <!--Services-->
   <script src="app/services/mainServices.js"></script>
+  <script src="app/services/clientesServices.js"></script>
+  <script src="app/services/articulosServices.js"></script>
 
 </head>
 <body ng-app="myapp" ng-controller="mainCtrl as main">
@@ -58,8 +63,8 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a href="/ventas">Ventas</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Clientes</a></li>
-                <li><a href="#">Artículos</a></li>
+                <li><a href="/clientes">Clientes</a></li>
+                <li><a href="/articulos">Artículos</a></li>
                 <li><a href="#">Configuración</a></li>
               </ul>
             </li>
